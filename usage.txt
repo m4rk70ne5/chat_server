@@ -1,0 +1,32 @@
+
+Data Structures
+---------------
+
+Map: HostToIP
+Graph: Clients
+
+Server Messages
+---------------
+
+SM_UNAVILABLE - data is source name
+SM_ALREADYCONN - no data
+SM_SUCCESS - no data
+SM_FAILURE - data is error message
+SM_CLIENTLIST - data is comma-separated list of host names
+SM_ALREADYUSED - no data
+SM_WELCOME - a welcome message
+SM_SERVEROFF - no data
+DATA - data is data
+
+Interpreting Client Messages
+----------------------------
+
+CM_ADD - check to see if the name isn't taken already (if it is, send SM_ALREADYUSED); 
+         if it isn't, add entry to the IP_ADDR/name map and send SM_SUCCESS
+CM_CONNECT - send one of three messages to the source host:  SM_ALREADYCONN, SM_SUCCESS, or SM_FAILURE
+CM_DISCONNECT - look at the data, and send an SM_UNAVAILABLE to the host 
+                in the data
+CM_EXIT - look at source name, send an SM_UNAVAILABLE to all host
+DATA - just forward the data to all hosts mapped with the source
+CM_RETRIEVE - send a list of available clients back to the source
+CM_POWEROFF - if the password matches, then quit the mainSocket loop
